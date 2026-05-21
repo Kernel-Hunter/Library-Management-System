@@ -1,223 +1,121 @@
-# 📚 LibrarySystem
+# Library Management System (Java • Swing GUI • MySQL)
 
-**Library Management System** is a comprehensive web-based library management application that streamlines library operations by enabling users to **book and reserve books online** while providing librarians with powerful **monitoring and management tools**.
-
----
-
-## 🎯 Overview
-
-This system automates traditional library processes, eliminating manual paperwork and reducing wait times. It serves three main user types: **students/members**, **librarians**, and **admin staff**, each with dedicated features tailored to their needs.
+A Java-based **Library Management System** with both a **Swing desktop interface** and a **command-line interface (CLI)**.  
+It connects to a **MySQL database** to manage **students**, **books**, and **borrow/return transactions**, and also includes a module to **book study boxes** (rooms/desks) with time slots and daily limits.
 
 ---
 
-## ✨ Key Features
+## Features
 
-| Feature | Description |
-|---------|-------------|
-| **📖 Online Book Reservation** | Users can search the catalog, check availability, and reserve books remotely |
-| **📚 Book Borrowing & Returns** | Automates check-out/check-in processes with automated due-date tracking |
-| **👥 Member Management** | Register members, issue library cards, and track borrowing history |
-| **📊 Inventory Monitoring** | Real-time book availability tracking, cataloging by author/title/subject |
-| **⏰ Overdue Notifications** | Automated reminders for upcoming/overdue returns and fine calculations |
-| **📈 Reporting & Analytics** | Generate reports on popular titles, borrowing patterns, and member statistics |
-| **🔍 Flexible Search** | Advanced search capabilities to find books, authors, and member records |
-| **💳 Single Library Card** | Members issue, renew, and reserve books using one integrated card |
+### Books & Borrowing
+- View **all books** and **available books**
+- Borrow and return books
+- Borrowing rules enforced with custom exceptions (e.g., borrow limits, unavailable book)
+- Late return handling (returns still complete, but are flagged as late)
 
----
+### Students
+- Load and display students from the database
+- Lookup students by ID
 
-## 🎁 Benefits
+### Study Boxes (Booking)
+- View available **study boxes**
+- Book a box by time slot (start/end time)
+- Cancel bookings
+- Check remaining allowed booking time for the day
+- Availability and daily booking-limit rules enforced with exceptions
 
-### For Members
-- Browse catalog online from anywhere
-- Reserve books remotely without visiting the library
-- View personal borrowing history
-- Receive availability and due-date notifications
-
-### For Librarians
-- Efficiently manage book collection
-- Track fines and overdue items
-- Process borrowing/return transactions quickly
-- Generate insights for data-driven decisions
-
-### For Administrators
-- Monitor overall library operations
-- Optimize resource allocation
-- Ensure data security and user management
+### Logging
+- Writes actions to `library.log` (borrow/return/late/rejected events)
 
 ---
 
-## 🚀 Problem Solved
+## Project Structure
 
-This system addresses inefficiencies in manual library operations by providing a **centralized digital platform** for managing books, members, and all borrowing/return transactions.
+- `src/com/university/Main.java`  
+  CLI entry point (menu: show books/students, borrow, return)
 
----
+- `src/com/university/LibraryGUI.java`  
+  Swing desktop UI (tabs for **Books** and **Study Boxes**)
 
-## 🛠️ Tech Stack
+- `src/com/university/manager/LibraryManager.java`  
+  Core logic for loading data, borrowing/returning, and DB updates
 
-> Edit this section based on your actual technology stack
+- `src/com/university/manager/BoxManager.java`  
+  Logic for study-box availability and bookings
 
-- **Frontend**: HTML, CSS, JavaScript (or React/Vue/Angular)
-- **Backend**: Python (Django/Flask) / Node.js / Java (Spring Boot) / PHP
-- **Database**: MySQL / PostgreSQL / MongoDB
-- **Others**: Git, REST API, Bootstrap/Tailwind CSS
-
----
-
-## 📦 Installation & Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/LibrarySystem.git
-
-# Navigate to the project directory
-cd LibrarySystem
-
-# Install dependencies
-# Replace with your actual installation commands based on tech stack
-npm install          # For Node.js
-# or
-pip install -r requirements.txt  # For Python
-
-# Configure database
-# Update database credentials in config file
-
-# Run the application
-npm start            # For Node.js
-# or
-python app.py        # For Python
-```
+- `src/com/university/db/DatabaseConnector.java`  
+  MySQL connection helper (JDBC)
 
 ---
 
-## 📖 Usage
+## Requirements
 
-### For Users
-1. Register/create an account
-2. Search and browse the book catalog
-3. Reserve available books online
-4. View reservation status and borrowing history
+- **Java** (JDK 8+ recommended)
+- **MySQL**
+- **MySQL JDBC driver** on your classpath (Connector/J)
 
-### For Librarians
-1. Log in to admin dashboard
-2. Manage book inventory (add, edit, remove books)
-3. Process book check-outs and returns
-4. Track overdue items and calculate fines
-5. Generate reports on library activity
+> Note: This repository currently does not include Maven/Gradle config, so you’ll need to run it from an IDE (IntelliJ/Eclipse) or set the classpath manually.
 
 ---
 
-## 📂 Project Structure
+## Database Setup (MySQL)
 
+The app expects a database named:
 
-util content loaded
-bin/com/university
-db
-DatabaseConnector.class
-exceptions
-BookNotFoundException.class
-BookingLimitExceededException.class
-BorrowLimitExceededException.class
-BoxNotAvailableException.class
-LateReturnException.class
-manager
-BoxManager.class
-LibraryManager.class
-models
-Book.class
-BorrowRecord.class
-Borrowable.class
-Box.class
-BoxBooking.class
-LibraryItem.class
-Student.class
-util
-FileLogger.class
-Notifiable.class
-Persistable.class
-Repository.class
-LibraryGUI$1.class
-LibraryGUI$2.class
-LibraryGUI$3.class
-LibraryGUI$4.class
-LibraryGUI$5.class
-LibraryGUI.class
-Main.class
-src/com/university
-db
-DatabaseConnector.java
-exceptions
-BookNotFoundException.java
-BookingLimitExceededException.java
-BorrowLimitExceededException.java
-BoxNotAvailableException.java
-LateReturnException.java
-manager
-BoxManager.java
-LibraryManager.java
-models
-Book.java
-BorrowRecord.java
-Borrowable.java
-Box.java
-BoxBooking.java
-LibraryItem.java
-Student.java
-util
-FileLogger.java
-Notifiable.java
-Persistable.java
-Repository.java
-LibraryGUI.java
-Main.java
-LICENSE
-README.md
-library.log
+- `library_db`
+
+And at least these tables (based on the SQL used in code):
+
+- `Students` (must include: `student_id`, `name`, `email`)
+- `Books` (must include: `item_id`, `isbn`, `title`, `author`, `is_available`)
+- `BorrowRecords` (must include: `record_id`, `student_id`, `book_id`, `borrow_time`, `return_time`)
+
+### Configure connection credentials
+
+Update the credentials in:
+
+- `src/com/university/db/DatabaseConnector.java`
+
+It currently uses:
+
+- URL: `jdbc:mysql://localhost:3306/library_db`
+- USER: `root`
+
+**Important:** do not commit real passwords. Use environment variables or a local config approach if you plan to share the repo publicly.
 
 ---
 
-## 🤝 Contributing
+## Run the Application
 
-Contributions are welcome! Please follow these steps:
+### Option A - Run the Swing GUI
+Run:
+- `src/com/university/LibraryGUI.java` (contains its own `main`)
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### Option B - Run the CLI
+Run:
+- `src/com/university/Main.java`
+
+CLI menu includes:
+1. Show all books  
+2. Show available books  
+3. Show all students  
+4. Borrow a book  
+5. Return a book  
+6. Exit  
 
 ---
 
-## 📝 License
-
-This project is licensed under the [MIT License](LICENSE).
+## Notes / Known Improvements
+- Add a **Maven/Gradle** build file for easier setup
+- Move DB credentials out of source code (use `.env`, config file, or secrets)
+- Add SQL scripts in a `/db` folder to create tables and seed sample data
+- Add automated tests for borrowing/booking rules
 
 ---
 
-## 👨‍💻 Author
+## License
+MIT — see [LICENSE](LICENSE).
 
-**Karim Masmoudi**  
+## Author
+Karim Masmoudi  
 GitHub: [@Kernel-Hunter](https://github.com/Kernel-Hunter)
-
----
-
-## 📞 Contact
-
-- **Email**: karim.masmoudi.pro@gmail.com
-- **Project Link**: [https://github.com/Kernel-Hunter/Library-Management-System]([https://github.com/YOUR_USERNAME/LibrarySystem](https://github.com/Kernel-Hunter/Library-Management-System))
-
----
-
-## 🙏 Acknowledgments
-
-- Inspiration from modern library management systems
-- Built for efficient library operations and user convenience
-
----
-
-<div align="center">
-
-**Made with ❤️ for better library management**
-
-⭐ Star this repo if you find it helpful!
-
-</div>
