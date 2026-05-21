@@ -108,19 +108,70 @@ python app.py        # For Python
 
 ## 📂 Project Structure
 
-LibrarySystem/
-├── frontend/
-│ ├── index.html
-│ ├── css/
-│ └── js/
-├── backend/
-│ ├── controllers/
-│ ├── models/
-│ └── routes/
-├── database/
-│ └── schema.sql
-├── README.md
-└── .gitignore
+
+util content loaded
+bin/com/university
+db
+DatabaseConnector.class
+exceptions
+BookNotFoundException.class
+BookingLimitExceededException.class
+BorrowLimitExceededException.class
+BoxNotAvailableException.class
+LateReturnException.class
+manager
+BoxManager.class
+LibraryManager.class
+models
+Book.class
+BorrowRecord.class
+Borrowable.class
+Box.class
+BoxBooking.class
+LibraryItem.class
+Student.class
+util
+FileLogger.class
+Notifiable.class
+Persistable.class
+Repository.class
+LibraryGUI$1.class
+LibraryGUI$2.class
+LibraryGUI$3.class
+LibraryGUI$4.class
+LibraryGUI$5.class
+LibraryGUI.class
+Main.class
+src/com/university
+db
+DatabaseConnector.java
+exceptions
+BookNotFoundException.java
+BookingLimitExceededException.java
+BorrowLimitExceededException.java
+BoxNotAvailableException.java
+LateReturnException.java
+manager
+BoxManager.java
+LibraryManager.java
+models
+Book.java
+BorrowRecord.java
+Borrowable.java
+Box.java
+BoxBooking.java
+LibraryItem.java
+Student.java
+util
+FileLogger.java
+Notifiable.java
+Persistable.java
+Repository.java
+LibraryGUI.java
+Main.java
+LICENSE
+README.md
+library.log
 
 ---
 
